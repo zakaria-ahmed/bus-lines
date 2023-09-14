@@ -10,7 +10,7 @@ import {
   countStopsForBuses,
   fetchStopNamesForEachBusline,
   mergeData,
-  sortBusLinesByStopNames,
+  sortBusLines,
 } from '@/utils/utils';
 
 type MergedBusLine = any;
@@ -33,12 +33,15 @@ const BusDataProvider: React.FC<BusDataProviderProps> = ({children}) => {
   );
 
   const getTop10Buslines = useCallback(async () => {
-    const buslineStops = await api.getBusLineStops();
-    const stopNames = await api.getStopNames();
+    const [buslineStops, stopNames] = await Promise.all([
+      api.getBusLineStops(),
+      api.getStopNames(),
+    ]);
+
     const stopsCounts = countStopsForBuses(buslineStops);
 
     const stopIdToNameMap = fetchStopNamesForEachBusline(stopNames);
-    const sortedBusLines = sortBusLinesByStopNames(stopsCounts);
+    const sortedBusLines = sortBusLines(stopsCounts);
     const top10Buslines = sortedBusLines.slice(0, 10);
 
     const top10BusLinesWithStops = top10Buslines.map(([lineNumber]) => {
