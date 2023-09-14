@@ -1,13 +1,10 @@
 import { 
     countStopsForBuses, 
     sortBusLinesByCount,
-    fetchStopNamesForEachBusline,
-    convertStopsToNames,
-    sortBusLinesByStopNames,
-    removeDuplicateEntries,
     mergeData
-  } from './utils';
+  } from '../utils/utils';
   
+  // REWRITE IT BETTER.... 
   describe('Utility functions', () => {
     test('countStopsForBuses', () => {
       const mockData = [{ LineNumber: '636' }, { LineNumber: '637' }, { LineNumber: '636' }];
@@ -16,21 +13,17 @@ import {
     });
   
     test('sortBusLinesByCount', () => {
-      const mockData = [{ stopNames: [1, 2, 3] }, { stopNames: [1, 2] }];
+      const mockData = [{ stopNames: ["stop1", "stop2", "stop3"] }, { stopNames: ["stop1", "stop2"] }];
       const result = sortBusLinesByCount(mockData);
       expect(result[0].stopNames.length).toBeGreaterThan(result[1].stopNames.length);
     });
   
-    // ... Similarly, write tests for the other functions.
-  
     test('mergeData', () => {
       const mockTop10Buslines = [
         { lineNumber: '636', stopNames: ['A', 'B', 'C'] },
-        // ... other data
       ];
       const mockBuslineCount = [
         ['636', 252],
-        // ... other items
       ];
       const result = mergeData(mockTop10Buslines, mockBuslineCount);
       expect(result[0]).toEqual({

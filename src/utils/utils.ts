@@ -21,7 +21,7 @@ export function fetchStopNamesForEachBusline(stopNamesData: any): { [key: string
     return stopIdToNameMap;
 }
 
-export function convertStopsToNames(busStopCounts: any, stopIdToNameMap?: any): any {
+export function convertStopsToNames(busStopCounts: any): any {
     const busStopNames: { [key: string]: number } = {}; 
 
     for (let [line, count] of Object.entries(busStopCounts)) {
@@ -31,7 +31,7 @@ export function convertStopsToNames(busStopCounts: any, stopIdToNameMap?: any): 
     return busStopNames;
 }
 
-export function sortBusLinesByStopNames(busStopCounts: any): any[] {
+export function sortBusLinesByStopNames(busStopCounts: Record<string, number>): [string, number][] {
     return Object.entries(busStopCounts).sort((a, b) => b[1] - a[1]);
 }
 

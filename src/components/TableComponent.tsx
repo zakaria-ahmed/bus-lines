@@ -11,8 +11,6 @@ interface BusData {
 
 interface TableProps {
   data: BusData[];
-  top10Buslines: any;
-  buslineCount: any;
 }
 
 const TableComponent: React.FC<TableProps> = ({data}) => {
