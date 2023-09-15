@@ -38,3 +38,12 @@ npm run test
 # or
 yarn test
 ```
+
+## CI/CD Deployment to Vercel
+
+Auto deploys to vercel on push to main branch
+
+suggestions for improvement:
+
+1. add a workflow to run integration tests on pull request to main branch
+2. add a workflow to run e2e tests on pull request to main branch with cypress
