@@ -5,12 +5,6 @@ import '@testing-library/jest-dom';
 import {render, screen} from '@testing-library/react';
 import Home from '@/pages/index';
 
-jest.mock('@/contexts/BusDataContext', () => ({
-  useBusData: () => ({
-    mergedBusData: [],
-  }),
-}));
-
 describe('Home', () => {
   it('renders the component', () => {
     render(<Home />);

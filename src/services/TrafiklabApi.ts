@@ -1,33 +1,48 @@
+interface TrafiklabConfig {
+    apiKey: string;
+}
 
 export default class TrafiklabApi {
+    private apiKey: string;
+    private baseUrl: string;
+
+    constructor(config: TrafiklabConfig) {
+        this.apiKey = config.apiKey;
+        this.baseUrl = 'https://api.sl.se/api2/LineData.json';
+    }
 
     async getBusLineStops(): Promise<any> {
-        const url = `/api/busLineStops`;
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        const url = `${this.baseUrl}?key=${this.apiKey}&model=jour&DefaultTransportModeCode=BUS`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.StatusCode !== 0) {
+                throw new Error(`Failed to fetch bus line stops. Status: ${data.StatusCode}`);
+            }
+            
+            return data.ResponseData.Result;
+        } catch (error) {
+            console.error("Error fetching bus line stops:", error);
+            throw error;
         }
-
-        const data = await response.json();
-        if (data.StatusCode !== 0) {
-            throw new Error(`Failed to fetch data. Status: ${data.StatusCode}`);
-        }
-        return data.ResponseData.Result;
     }
+
     async getStopNames(): Promise<any> {
-        const url = `/api/stopNames`; 
-        const response = await fetch(url);
+        const url = `${this.baseUrl}?key=${this.apiKey}&model=stop&DefaultTransportModeCode=BUS`;
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
 
-        const data = await response.json();
-        if (data.StatusCode !== 0) {
-            throw new Error(`Failed to fetch data. Status: ${data.StatusCode}`);
+            if (data.StatusCode !== 0) {
+                throw new Error(`Failed to fetch stop names. Status: ${data.StatusCode}`);
+            }
+
+            return data.ResponseData.Result;
+        } catch (error) {
+            console.error("Error fetching stop names:", error);
+            throw error;
         }
-        return data.ResponseData.Result;
     }
-
 }
